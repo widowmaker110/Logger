@@ -52,6 +52,9 @@ public class MainLogger {
     /** printlnLogLevel - a way to determine which logging level to print in the async function */
     private static int printlnLogLevel = 6;
 
+    /** printlnLogLevel - Filler for the Tag parameter of the Log.e,i,w,v() function */
+    private static String GenericTag = "LoggerTag";
+
     /**
      * MainLogger
      *
@@ -514,7 +517,6 @@ public class MainLogger {
          * @param loggingLevelParam (int) Logging level used later in a switch case
          * @param MessageParam (String) The message you want to print
          * @param ExceptionParam (Throwable) The exception you wish to process
-         * @param ExceptionParam (Throwable) The exception you wish to process
          */
         public PrintOperation(int loggingLevelParam, String TagParam, String MessageParam, Throwable ExceptionParam){
             this.loggingLevel = loggingLevelParam;
@@ -528,6 +530,49 @@ public class MainLogger {
 
         @Override
         protected Void doInBackground(Void... params) {
+
+            if(loggingLevel == messageLogLevel){
+                if((Tag != null && !Tag.isEmpty())) {
+                    Log.d(GenericTag, this.Message, Exception);
+                } else {
+                    Log.d(this.Tag, this.Message, this.Exception);
+                }
+            }
+            else if(loggingLevel == errorLogLevel) {
+                if((Tag != null && !Tag.isEmpty())) {
+                    Log.e(GenericTag, this.Message, Exception);
+                } else {
+                    Log.e(this.Tag, this.Message, this.Exception);
+                }
+            }
+            else if(loggingLevel == infoLogLevel) {
+                if((Tag != null && !Tag.isEmpty())) {
+                    Log.i(GenericTag, this.Message, Exception);
+                } else {
+                    Log.i(this.Tag, this.Message, this.Exception);
+                }
+            }
+            else if(loggingLevel == warningLogLevel) {
+                if((Tag != null && !Tag.isEmpty())) {
+                    Log.w(GenericTag, this.Message, Exception);
+                } else {
+                    Log.w(this.Tag, this.Message, this.Exception);
+                }
+            }
+            else if(loggingLevel == verboseLogLevel) {
+                if((Tag != null && !Tag.isEmpty())) {
+                    Log.v(GenericTag, this.Message, Exception);
+                } else {
+                    Log.v(this.Tag, this.Message, this.Exception);
+                }
+            }
+            else {
+                if((Tag != null && !Tag.isEmpty())) {
+                    Log.println(this.Priority, GenericTag, this.Message);
+                } else {
+                    Log.println(this.Priority, this.Tag, this.Message);
+                }
+            }
 
             return null;
         }
