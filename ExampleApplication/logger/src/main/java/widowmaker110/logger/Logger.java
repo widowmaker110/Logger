@@ -27,12 +27,16 @@ package widowmaker110.logger;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import java.util.Arrays;
+
 /**
  * MainLogger
  *
  * Created by Alexander Miller on 1/10/2017.
  */
-public class MainLogger {
+public class Logger {
+
+    private static boolean DEBUGMODE = true;
 
     /** messageLogLevel - a way to determine which logging level to print in the async function */
     private static int messageLogLevel = 1;
@@ -55,15 +59,42 @@ public class MainLogger {
     /** printlnLogLevel - Filler for the Tag parameter of the Log.e,i,w,v() function */
     private static String GenericTag = "LoggerTag";
 
+    private String[] protectedMethodNames = {"message", "error", "info", "warning", "verbose", "println"};
+
     /**
      * MainLogger
      *
      * Empty Constructor
      */
-    public MainLogger(){}
+    public Logger(){}
 
     public String getStackTraceString(Throwable Exception){
         return Log.getStackTraceString(Exception);
+    }
+
+    /**
+     * getCallingFunction
+     *
+     * This function cycles through the entire stack trace of method calls,
+     * finds the last occurance of "message" || "error" || "info" || "warning" || "verbose" || "println" (the method found in this library),
+     * then returns the String name
+     *
+     * Inspired by: http://stackoverflow.com/questions/19367119/java-how-do-i-sequentially-find-the-last-occurrence-of-an-element-in-an-array-th
+     *
+     * @return returningValue (String) - Name of the function calling one of this library's print statements
+     */
+    public String getCallingFunction(StackTraceElement[] elements){
+
+        String returningValue = "";
+
+        for (int index = 0; index < elements.length-1; index++) {
+            String tempValue = elements[index].getMethodName();
+            if (Arrays.asList(protectedMethodNames).contains(tempValue)) {
+                returningValue = elements[index+1].getMethodName();
+            }
+        }
+
+        return returningValue;
     }
 
     /**
@@ -74,8 +105,11 @@ public class MainLogger {
      * @param Message (String) The message you want to print
      */
     public void message(String Message){
-        if (BuildConfig.DEBUG){
-            new PrintOperation(messageLogLevel, Message).execute();
+        if (DEBUGMODE){
+
+            StackTraceElement[] stacktrace = Thread.currentThread().getStackTrace();
+
+            new PrintOperation(messageLogLevel, getCallingFunction(stacktrace), Message).execute();
         }
     }
 
@@ -88,7 +122,7 @@ public class MainLogger {
      * @param Message (String) The message you want to print
      */
     public void message(String Tag, String Message){
-        if (BuildConfig.DEBUG){
+        if (DEBUGMODE){
             new PrintOperation(messageLogLevel, Tag, Message).execute();
         }
     }
@@ -102,7 +136,7 @@ public class MainLogger {
      * @param Exception (Throwable) The exception you wish to process
      */
     public void message(String Message, Throwable Exception){
-        if (BuildConfig.DEBUG){
+        if (DEBUGMODE){
             new PrintOperation(messageLogLevel, Message, Exception).execute();
         }
     }
@@ -117,7 +151,7 @@ public class MainLogger {
      * @param Exception (Throwable) The exception you wish to process
      */
     public void message(String Tag, String Message, Throwable Exception){
-        if (BuildConfig.DEBUG){
+        if (DEBUGMODE){
             new PrintOperation(messageLogLevel, Tag, Message, Exception).execute();
         }
     }
@@ -130,8 +164,10 @@ public class MainLogger {
      * @param Message (String) The message you want to print
      */
     public void error(String Message){
-        if (BuildConfig.DEBUG){
-            new PrintOperation(errorLogLevel, Message).execute();
+        if (DEBUGMODE){
+            StackTraceElement[] stacktrace = Thread.currentThread().getStackTrace();
+
+            new PrintOperation(errorLogLevel, getCallingFunction(stacktrace), Message).execute();
         }
     }
 
@@ -144,7 +180,7 @@ public class MainLogger {
      * @param Message (String) The message you want to print
      */
     public void error(String Tag, String Message){
-        if (BuildConfig.DEBUG){
+        if (DEBUGMODE){
             new PrintOperation(errorLogLevel, Tag, Message).execute();
         }
     }
@@ -158,7 +194,7 @@ public class MainLogger {
      * @param Exception (Throwable) The exception you wish to process
      */
     public void error(String Message, Throwable Exception){
-        if (BuildConfig.DEBUG){
+        if (DEBUGMODE){
             new PrintOperation(errorLogLevel, Message, Exception).execute();
         }
     }
@@ -173,7 +209,7 @@ public class MainLogger {
      * @param Exception (Throwable) The exception you wish to process
      */
     public void error(String Tag, String Message, Throwable Exception){
-        if (BuildConfig.DEBUG){
+        if (DEBUGMODE){
             new PrintOperation(errorLogLevel, Tag, Message, Exception).execute();
         }
     }
@@ -186,8 +222,10 @@ public class MainLogger {
      * @param Message (String) The message you want to print
      */
     public void info(String Message){
-        if (BuildConfig.DEBUG){
-            new PrintOperation(infoLogLevel, Message).execute();
+        if (DEBUGMODE){
+
+            StackTraceElement[] stacktrace = Thread.currentThread().getStackTrace();
+            new PrintOperation(infoLogLevel, getCallingFunction(stacktrace), Message).execute();
         }
     }
 
@@ -200,7 +238,7 @@ public class MainLogger {
      * @param Message (String) The message you want to print
      */
     public void info(String Tag, String Message){
-        if (BuildConfig.DEBUG){
+        if (DEBUGMODE){
             new PrintOperation(infoLogLevel, Tag, Message).execute();
         }
     }
@@ -214,7 +252,7 @@ public class MainLogger {
      * @param Exception (Throwable) The exception you wish to process
      */
     public void info(String Message, Throwable Exception){
-        if (BuildConfig.DEBUG){
+        if (DEBUGMODE){
             new PrintOperation(infoLogLevel, Message, Exception).execute();
         }
     }
@@ -229,7 +267,7 @@ public class MainLogger {
      * @param Exception (Throwable) The exception you wish to process
      */
     public void info(String Tag, String Message, Throwable Exception){
-        if (BuildConfig.DEBUG){
+        if (DEBUGMODE){
             new PrintOperation(infoLogLevel, Tag, Message, Exception).execute();
         }
     }
@@ -242,8 +280,10 @@ public class MainLogger {
      * @param Message (String) The message you want to print
      */
     public void warning(String Message){
-        if (BuildConfig.DEBUG){
-            new PrintOperation(warningLogLevel, Message).execute();
+        if (DEBUGMODE){
+
+            StackTraceElement[] stacktrace = Thread.currentThread().getStackTrace();
+            new PrintOperation(warningLogLevel, getCallingFunction(stacktrace), Message).execute();
         }
     }
 
@@ -256,7 +296,7 @@ public class MainLogger {
      * @param Message (String) The message you want to print
      */
     public void warning(String Tag, String Message){
-        if (BuildConfig.DEBUG){
+        if (DEBUGMODE){
             new PrintOperation(warningLogLevel, Tag, Message).execute();
         }
     }
@@ -270,7 +310,7 @@ public class MainLogger {
      * @param Exception (Throwable) The exception you wish to process
      */
     public void warning(String Message, Throwable Exception){
-        if (BuildConfig.DEBUG){
+        if (DEBUGMODE){
             new PrintOperation(warningLogLevel, Message, Exception).execute();
         }
     }
@@ -285,7 +325,7 @@ public class MainLogger {
      * @param Exception (Throwable) The exception you wish to process
      */
     public void warning(String Tag, String Message, Throwable Exception){
-        if (BuildConfig.DEBUG){
+        if (DEBUGMODE){
             new PrintOperation(warningLogLevel, Tag, Message, Exception).execute();
         }
     }
@@ -298,8 +338,9 @@ public class MainLogger {
      * @param Message (String) The message you want to print
      */
     public void verbose(String Message){
-        if (BuildConfig.DEBUG){
-            new PrintOperation(verboseLogLevel, Message).execute();
+        if (DEBUGMODE){
+            StackTraceElement[] stacktrace = Thread.currentThread().getStackTrace();
+            new PrintOperation(verboseLogLevel, getCallingFunction(stacktrace), Message).execute();
         }
     }
 
@@ -312,7 +353,7 @@ public class MainLogger {
      * @param Message (String) The message you want to print
      */
     public void verbose(String Tag, String Message){
-        if (BuildConfig.DEBUG){
+        if (DEBUGMODE){
             new PrintOperation(verboseLogLevel, Tag, Message).execute();
         }
     }
@@ -326,7 +367,7 @@ public class MainLogger {
      * @param Exception (Throwable) The exception you wish to process
      */
     public void verbose(String Message, Throwable Exception){
-        if (BuildConfig.DEBUG){
+        if (DEBUGMODE){
             new PrintOperation(verboseLogLevel, Message, Exception).execute();
         }
     }
@@ -341,7 +382,7 @@ public class MainLogger {
      * @param Exception (Throwable) The exception you wish to process
      */
     public void verbose(String Tag, String Message, Throwable Exception){
-        if (BuildConfig.DEBUG){
+        if (DEBUGMODE){
             new PrintOperation(verboseLogLevel, Tag, Message, Exception).execute();
         }
     }
@@ -355,8 +396,9 @@ public class MainLogger {
      * @param Message (String) The message you want to print
      */
     public void println(int Priority, String Message){
-        if (BuildConfig.DEBUG){
-            new PrintOperation(printlnLogLevel, Priority, Message).execute();
+        if (DEBUGMODE){
+            StackTraceElement[] stacktrace = Thread.currentThread().getStackTrace();
+            new PrintOperation(printlnLogLevel, Priority, getCallingFunction(stacktrace), Message).execute();
         }
     }
 
@@ -370,7 +412,7 @@ public class MainLogger {
      * @param Message (String) The message you want to print
      */
     public void println(int Priority, String Tag, String Message){
-        if (BuildConfig.DEBUG){
+        if (DEBUGMODE){
             new PrintOperation(printlnLogLevel, Priority, Tag, Message).execute();
         }
     }
@@ -386,7 +428,7 @@ public class MainLogger {
      * @param Exception (Throwable) The exception you wish to process
      */
     public void println(int Priority, String Tag, String Message, Throwable Exception){
-        if (BuildConfig.DEBUG){
+        if (DEBUGMODE){
             new PrintOperation(printlnLogLevel, Priority, Tag, Message, Exception).execute();
         }
     }
@@ -533,44 +575,44 @@ public class MainLogger {
 
             if(loggingLevel == messageLogLevel){
                 if((Tag != null && !Tag.isEmpty())) {
-                    Log.d(GenericTag, this.Message, Exception);
-                } else {
                     Log.d(this.Tag, this.Message, this.Exception);
+                } else {
+                    Log.d(GenericTag, this.Message, Exception);
                 }
             }
             else if(loggingLevel == errorLogLevel) {
                 if((Tag != null && !Tag.isEmpty())) {
-                    Log.e(GenericTag, this.Message, Exception);
-                } else {
                     Log.e(this.Tag, this.Message, this.Exception);
+                } else {
+                    Log.e(GenericTag, this.Message, Exception);
                 }
             }
             else if(loggingLevel == infoLogLevel) {
                 if((Tag != null && !Tag.isEmpty())) {
-                    Log.i(GenericTag, this.Message, Exception);
-                } else {
                     Log.i(this.Tag, this.Message, this.Exception);
+                } else {
+                    Log.i(GenericTag, this.Message, Exception);
                 }
             }
             else if(loggingLevel == warningLogLevel) {
                 if((Tag != null && !Tag.isEmpty())) {
-                    Log.w(GenericTag, this.Message, Exception);
-                } else {
                     Log.w(this.Tag, this.Message, this.Exception);
+                } else {
+                    Log.w(GenericTag, this.Message, Exception);
                 }
             }
             else if(loggingLevel == verboseLogLevel) {
                 if((Tag != null && !Tag.isEmpty())) {
-                    Log.v(GenericTag, this.Message, Exception);
-                } else {
                     Log.v(this.Tag, this.Message, this.Exception);
+                } else {
+                    Log.v(GenericTag, this.Message, Exception);
                 }
             }
             else {
                 if((Tag != null && !Tag.isEmpty())) {
-                    Log.println(this.Priority, GenericTag, this.Message);
-                } else {
                     Log.println(this.Priority, this.Tag, this.Message);
+                } else {
+                    Log.println(this.Priority, GenericTag, this.Message);
                 }
             }
 
