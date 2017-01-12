@@ -56,10 +56,12 @@ public class Logger {
     /** printlnLogLevel - a way to determine which logging level to print in the async function */
     private static int printlnLogLevel = 6;
 
+    private static int wtfLogLevel = 7;
+
     /** printlnLogLevel - Filler for the Tag parameter of the Log.e,i,w,v() function */
     private static String GenericTag = "LoggerTag";
 
-    private String[] protectedMethodNames = {"message", "error", "info", "warning", "verbose", "println"};
+    private String[] protectedMethodNames = {"message", "error", "info", "warning", "verbose", "println", "wtf"};
 
     /**
      * MainLogger
@@ -98,6 +100,31 @@ public class Logger {
     }
 
     /**
+     * getCallingFile
+     *
+     * This function cycles through the entire stack trace of method calls,
+     * finds the last occurance of "message" || "error" || "info" || "warning" || "verbose" || "println" (the method found in this library),
+     * then returns the String name
+     *
+     * Inspired by: http://stackoverflow.com/questions/19367119/java-how-do-i-sequentially-find-the-last-occurrence-of-an-element-in-an-array-th
+     *
+     * @return returningValue (String) - Name of the function calling one of this library's print statements
+     */
+    public String getCallingFile(StackTraceElement[] elements){
+
+        String returningValue = "";
+
+        for (int index = 0; index < elements.length-1; index++) {
+            String tempValue = elements[index].getMethodName();
+            if (Arrays.asList(protectedMethodNames).contains(tempValue)) {
+                returningValue = elements[index+1].getFileName();
+            }
+        }
+
+        return returningValue;
+    }
+
+    /**
      * message
      *
      * Invokes an Async Task to print, using Log.d()
@@ -109,7 +136,7 @@ public class Logger {
 
             StackTraceElement[] stacktrace = Thread.currentThread().getStackTrace();
 
-            new PrintOperation(messageLogLevel, getCallingFunction(stacktrace), Message).execute();
+            new PrintOperation(messageLogLevel, getCallingFile(stacktrace)  + " - " + getCallingFunction(stacktrace), Message).execute();
         }
     }
 
@@ -137,7 +164,10 @@ public class Logger {
      */
     public void message(String Message, Throwable Exception){
         if (DEBUGMODE){
-            new PrintOperation(messageLogLevel, Message, Exception).execute();
+
+            StackTraceElement[] stacktrace = Thread.currentThread().getStackTrace();
+
+            new PrintOperation(messageLogLevel, getCallingFile(stacktrace)  + " - " + getCallingFunction(stacktrace), Message, Exception).execute();
         }
     }
 
@@ -167,7 +197,7 @@ public class Logger {
         if (DEBUGMODE){
             StackTraceElement[] stacktrace = Thread.currentThread().getStackTrace();
 
-            new PrintOperation(errorLogLevel, getCallingFunction(stacktrace), Message).execute();
+            new PrintOperation(errorLogLevel, getCallingFile(stacktrace)  + " - " + getCallingFunction(stacktrace), Message).execute();
         }
     }
 
@@ -195,7 +225,9 @@ public class Logger {
      */
     public void error(String Message, Throwable Exception){
         if (DEBUGMODE){
-            new PrintOperation(errorLogLevel, Message, Exception).execute();
+            StackTraceElement[] stacktrace = Thread.currentThread().getStackTrace();
+
+            new PrintOperation(errorLogLevel, getCallingFile(stacktrace)  + " - " + getCallingFunction(stacktrace), Message, Exception).execute();
         }
     }
 
@@ -225,7 +257,8 @@ public class Logger {
         if (DEBUGMODE){
 
             StackTraceElement[] stacktrace = Thread.currentThread().getStackTrace();
-            new PrintOperation(infoLogLevel, getCallingFunction(stacktrace), Message).execute();
+
+            new PrintOperation(infoLogLevel, getCallingFile(stacktrace)  + " - " + getCallingFunction(stacktrace), Message).execute();
         }
     }
 
@@ -253,7 +286,9 @@ public class Logger {
      */
     public void info(String Message, Throwable Exception){
         if (DEBUGMODE){
-            new PrintOperation(infoLogLevel, Message, Exception).execute();
+            StackTraceElement[] stacktrace = Thread.currentThread().getStackTrace();
+
+            new PrintOperation(infoLogLevel, getCallingFile(stacktrace)  + " - " + getCallingFunction(stacktrace), Message, Exception).execute();
         }
     }
 
@@ -283,7 +318,8 @@ public class Logger {
         if (DEBUGMODE){
 
             StackTraceElement[] stacktrace = Thread.currentThread().getStackTrace();
-            new PrintOperation(warningLogLevel, getCallingFunction(stacktrace), Message).execute();
+
+            new PrintOperation(warningLogLevel, getCallingFile(stacktrace)  + " - " + getCallingFunction(stacktrace), Message).execute();
         }
     }
 
@@ -311,7 +347,10 @@ public class Logger {
      */
     public void warning(String Message, Throwable Exception){
         if (DEBUGMODE){
-            new PrintOperation(warningLogLevel, Message, Exception).execute();
+
+            StackTraceElement[] stacktrace = Thread.currentThread().getStackTrace();
+
+            new PrintOperation(warningLogLevel, getCallingFile(stacktrace)  + " - " + getCallingFunction(stacktrace), Message, Exception).execute();
         }
     }
 
@@ -340,7 +379,8 @@ public class Logger {
     public void verbose(String Message){
         if (DEBUGMODE){
             StackTraceElement[] stacktrace = Thread.currentThread().getStackTrace();
-            new PrintOperation(verboseLogLevel, getCallingFunction(stacktrace), Message).execute();
+
+            new PrintOperation(verboseLogLevel, getCallingFile(stacktrace)  + " - " + getCallingFunction(stacktrace), Message).execute();
         }
     }
 
@@ -368,7 +408,10 @@ public class Logger {
      */
     public void verbose(String Message, Throwable Exception){
         if (DEBUGMODE){
-            new PrintOperation(verboseLogLevel, Message, Exception).execute();
+
+            StackTraceElement[] stacktrace = Thread.currentThread().getStackTrace();
+
+            new PrintOperation(verboseLogLevel, getCallingFile(stacktrace)  + " - " + getCallingFunction(stacktrace), Message, Exception).execute();
         }
     }
 
@@ -398,7 +441,8 @@ public class Logger {
     public void println(int Priority, String Message){
         if (DEBUGMODE){
             StackTraceElement[] stacktrace = Thread.currentThread().getStackTrace();
-            new PrintOperation(printlnLogLevel, Priority, getCallingFunction(stacktrace), Message).execute();
+
+            new PrintOperation(printlnLogLevel, Priority, getCallingFile(stacktrace)  + " - " + getCallingFunction(stacktrace), Message).execute();
         }
     }
 
@@ -550,6 +594,8 @@ public class Logger {
             this.Message = MessageParam;
             this.Exception = ExceptionParam;
         }
+
+        // TODO Add the wtf statments here
 
         /**
          * PrintOperation
