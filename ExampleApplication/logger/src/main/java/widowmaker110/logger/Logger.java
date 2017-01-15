@@ -36,32 +36,33 @@ import java.util.Arrays;
  */
 public class Logger {
 
-    private static boolean DEBUGMODE = true;
+    /** DEBUGMODE - controling overall boolean which either turns on or off the debug messages */
+    protected static boolean DEBUGMODE = true;
 
     /** messageLogLevel - a way to determine which logging level to print in the async function */
-    private static int messageLogLevel = 1;
+    protected static int messageLogLevel = 1;
 
     /** errorLogLevel - a way to determine which logging level to print in the async function */
-    private static int errorLogLevel = 2;
+    protected static int errorLogLevel = 2;
 
     /** infoLogLevel - a way to determine which logging level to print in the async function */
-    private static int infoLogLevel = 3;
+    protected static int infoLogLevel = 3;
 
     /** warningLogLevel - a way to determine which logging level to print in the async function */
-    private static int warningLogLevel = 4;
+    protected static int warningLogLevel = 4;
 
     /** verboseLogLevel - a way to determine which logging level to print in the async function */
-    private static int verboseLogLevel = 5;
+    protected static int verboseLogLevel = 5;
 
     /** printlnLogLevel - a way to determine which logging level to print in the async function */
-    private static int printlnLogLevel = 6;
+    protected static int printlnLogLevel = 6;
 
-    private static int wtfLogLevel = 7;
+    protected static int wtfLogLevel = 7;
 
     /** printlnLogLevel - Filler for the Tag parameter of the Log.e,i,w,v() function */
-    private static String GenericTag = "LoggerTag";
+    protected static String GenericTag = "LoggerTag";
 
-    private String[] protectedMethodNames = {"message", "error", "info", "warning", "verbose", "println", "wtf"};
+    protected String[] protectedMethodNames = {"message", "error", "info", "warning", "verbose", "println", "wtf"};
 
     /**
      * MainLogger
@@ -69,10 +70,6 @@ public class Logger {
      * Empty Constructor
      */
     public Logger(){}
-
-    public String getStackTraceString(Throwable Exception){
-        return Log.getStackTraceString(Exception);
-    }
 
     /**
      * getCallingFunction
@@ -477,7 +474,7 @@ public class Logger {
         }
     }
 
-    private class PrintOperation extends AsyncTask<Void, Void, Void> {
+    protected static class PrintOperation extends AsyncTask<Void, Void, Void> {
 
         /** loggingLevel - a way to determine which logging level to print */
         private int loggingLevel;
