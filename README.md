@@ -17,16 +17,21 @@ This project is intended for those working in large apps and need something to h
 In your ```build.gradle``` (Project: **ProjectName**) file, place the following:
 ```sh
 repositories { 
-jcenter()
-maven { url 'https://dl.bintray.com/alexander-miller110/Logger' }
+    jcenter()
+    maven { url 'https://dl.bintray.com/alexander-miller110/Logger' }
 }
+
+![Project Gradle](/images/project_gradle.png?raw=true "Project Gradle")
+
 ```
 In your ```build.gradle``` (Module: **app**) file, place the following:
 ```sh
 dependencies {
-compile 'alexander-miller110:logger:0.1'
+    compile 'alexander-miller110:logger:0.1'
 }
 ```
+![App Gradle](/images/app_gradle.png?raw=true "App Gradle")
+
 Click **Sync Now** and thats it!
 
 ### Usage ###
@@ -45,20 +50,20 @@ Logger logger;
 
 // always ensure the library is initialized before use
 public void init(){
-if(logger == null)
-logger = new Logger();
+    if(logger == null)
+        logger = new Logger();
 }
 
 // print what you need
 public void someFunction(){
-logger.message("Hello World!");
+    logger.message("Hello World!");
 }
 }
 ```
 
 The result:
 ```sh
-01-18 21:59:02.545 3973-3994/? D/MainActivity.java - onCreate: Hello World!
+01-18 21:59:02.545 3973-3994/? D/MainActivity.java - someFunction: Hello World!
 ```
 
 The class name and function from the stacktrace is automatically generated. As the developer, you get to spend more time giving it the information it needs.
