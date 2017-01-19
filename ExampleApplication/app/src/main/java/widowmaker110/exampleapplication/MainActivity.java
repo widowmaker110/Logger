@@ -8,7 +8,7 @@ import widowmaker110.logger.Logger;
 
 public class MainActivity extends AppCompatActivity {
 
-    public Logger logger;
+    Logger logger;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
 
         init();
 
-        logger.message("init() loaded successfully");
+        logger.message("Hello World!");
 
         testFunction();
 

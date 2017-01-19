@@ -32,3 +32,31 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.1.0'
     testCompile 'junit:junit:4.12'
 }
+ext {
+    bintrayRepo = 'Logger'
+    bintrayName = 'Logger'   // Has to be same as your library module name
+
+    publishedGroupId = 'alexander-miller110'
+    libraryName = 'Logger'
+    artifact = 'logger'     // Has to be same as your library module name
+
+    libraryDescription = 'Android Library to make any text into Toast with Awesome prepended to the text'
+
+    // Your github repo link
+    siteUrl = 'https://github.com/widowmaker110/Logger'
+    gitUrl = 'https://github.com/widowmaker110/Logger.git'
+    githubRepository= 'widowmaker110/Logger'
+
+    libraryVersion = '0.1'
+
+    developerId = 'widowmaker110'
+    developerName = 'Alexander Miller'
+    developerEmail = 'alexander.miller110@gmail.com'
+
+    licenseName = 'The MIT license'
+    licenseUrl = 'https://opensource.org/licenses/MIT'
+    allLicenses = ["MIT"]
+}
+
+apply from: 'https://raw.githubusercontent.com/nisrulz/JCenter/master/installv1.gradle'
+apply from: 'https://raw.githubusercontent.com/nisrulz/JCenter/master/bintrayv1.gradle'
