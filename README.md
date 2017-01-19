@@ -15,22 +15,25 @@ This project is intended for those working in large apps and need something to h
 ### Installation ###
 
 In your ```build.gradle``` (Project: **ProjectName**) file, place the following:
+
+![Project Gradle](/images/project_gradle.png?raw=true "Project Gradle")
+
 ```sh
 repositories { 
     jcenter()
     maven { url 'https://dl.bintray.com/alexander-miller110/Logger' }
 }
 
-![Project Gradle](/images/project_gradle.png?raw=true "Project Gradle")
-
 ```
 In your ```build.gradle``` (Module: **app**) file, place the following:
+
+![App Gradle](/images/app_gradle.png?raw=true "App Gradle")
+
 ```sh
 dependencies {
     compile 'alexander-miller110:logger:0.1'
 }
 ```
-![App Gradle](/images/app_gradle.png?raw=true "App Gradle")
 
 Click **Sync Now** and thats it!
 
