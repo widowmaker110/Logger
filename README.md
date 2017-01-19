@@ -1,6 +1,8 @@
 # Logger
 Android Library designed to help you more efficiently debug an entire project
 
+[![Code Climate](https://codeclimate.com/github/widowmaker110/Logger/badges/gpa.svg)](https://codeclimate.com/github/widowmaker110/Logger) [![Test Coverage](https://codeclimate.com/github/widowmaker110/Logger/badges/coverage.svg)](https://codeclimate.com/github/widowmaker110/Logger/coverage) [![Issue Count](https://codeclimate.com/github/widowmaker110/Logger/badges/issue_count.svg)](https://codeclimate.com/github/widowmaker110/Logger)
+
 ## PREFACE ##
 1. Project Synopsis 
 2. Installation
