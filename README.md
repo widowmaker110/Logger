@@ -23,7 +23,7 @@ In your ```build.gradle``` (Project: **ProjectName**) file, place the following:
 ```sh
 repositories { 
     jcenter()
-    maven { url 'https://dl.bintray.com/alexander-miller110/Logger' }
+    maven { url 'https://dl.bintray.com/alexander-miller110/maven' }
 }
 
 ```
@@ -33,7 +33,7 @@ In your ```build.gradle``` (Module: **app**) file, place the following:
 
 ```sh
 dependencies {
-    compile 'alexander-miller110:logger:0.1'
+    compile 'com.appopps:logger:0.1'
 }
 ```
 
