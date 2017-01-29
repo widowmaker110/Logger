@@ -31,7 +31,7 @@ In your ```build.gradle``` (Module: **app**) file, place the following:
 
 ```sh
 dependencies {
-    compile 'com.appopps:logger:0.1'
+    compile 'com.appopps:logger:0.2'
 }
 ```
 
