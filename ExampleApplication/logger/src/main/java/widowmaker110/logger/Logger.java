@@ -25,9 +25,12 @@ package widowmaker110.logger;
  */
 
 import android.os.AsyncTask;
+import android.os.Debug;
 import android.util.Log;
 
 import java.util.Arrays;
+
+import static android.os.Debug.isDebuggerConnected;
 
 /**
  * MainLogger
@@ -37,7 +40,7 @@ import java.util.Arrays;
 public class Logger {
 
     /** DEBUGMODE - controling overall boolean which either turns on or off the debug messages */
-    protected static boolean DEBUGMODE = true;
+    protected static boolean DEBUGMODE;
 
     /** messageLogLevel - a way to determine which logging level to print in the async function */
     protected static int messageLogLevel = 1;
@@ -69,7 +72,12 @@ public class Logger {
      *
      * Empty Constructor
      */
-    public Logger(){}
+    public Logger(){
+
+        // set the debug mode. This is only true when you click "Debug app" in Android Studio
+        DEBUGMODE = isDebuggerConnected();
+
+    }
 
     /**
      * getCallingFunction
