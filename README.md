@@ -1,7 +1,5 @@
 # Logger
-Android Library designed to help you more efficiently debug an entire project
-
-[![Code Climate](https://codeclimate.com/github/widowmaker110/Logger/badges/gpa.svg)](https://codeclimate.com/github/widowmaker110/Logger) [![Test Coverage](https://codeclimate.com/github/widowmaker110/Logger/badges/coverage.svg)](https://codeclimate.com/github/widowmaker110/Logger/coverage) [![Issue Count](https://codeclimate.com/github/widowmaker110/Logger/badges/issue_count.svg)](https://codeclimate.com/github/widowmaker110/Logger)
+Android Library designed to help you more efficiently and intelligently debug an entire project
 
 ## PREFACE ##
 1. Project Synopsis 
@@ -41,28 +39,26 @@ Click **Sync Now** and thats it!
 
 ### Usage ###
 
-When you're doing development work, make sure to flip on the controlling boolean before you being. **Always turn this to false when releasing to production. Logging is expensive on the CPU**
-
-TODO: configure that in the project
+Do I need to worry about this running in my published APK? **No.** This library only activates when you click "Debug" next to "Run" in your Android Studio console. 
 
 To reference it in your project, use the following code:
 ```sh
 import widowmaker110.logger.Logger;
 
-public class MainActivity extends AppCompatActivity {
+	public class MainActivity extends AppCompatActivity {
 
-Logger logger;
+	Logger logger;
 
-// always ensure the library is initialized before use
-public void init(){
-    if(logger == null)
-        logger = new Logger();
-}
+	// always ensure the library is initialized before use
+	public void init(){
+    	if(logger == null)
+        	logger = new Logger();
+	}
 
-// print what you need
-public void someFunction(){
-    logger.message("Hello World!");
-}
+	// print what you need
+	public void someFunction(){
+    	logger.message("Hello World!");
+	}
 }
 ```
 
@@ -76,7 +72,7 @@ The class name and function from the stacktrace is automatically generated. As t
 ### Future Plans ###
 
 1. The ability to choose between File Name, Class Name, Function Name, and Line Number through function parameters.
-2. More to come
+2. Suggest some!
 
 ### License ###
 ```

@@ -47,7 +47,7 @@ ext {
     gitUrl = 'https://github.com/widowmaker110/Logger.git'
     githubRepository= 'widowmaker110/Logger'
 
-    libraryVersion = '0.1'
+    libraryVersion = '0.2'
 
     developerId = 'widowmaker110'
     developerName = 'Alexander Miller'
